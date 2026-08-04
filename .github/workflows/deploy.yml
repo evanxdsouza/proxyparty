@@ -1,4 +1,5 @@
-name: Deploy Proxy Config
+name: Deploy Golfer
+
 on:
   push:
     branches: [main]
@@ -7,20 +8,33 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - run: node generate-caddyfile.js
-      - name: Copy Caddyfile to server
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Generate golfer.caddy
+        run: node generate-caddyfile.js
+
+      - name: Copy golfer.caddy to server
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
-          source: "Caddyfile"
-          target: "/etc/caddy/"
-      - name: Reload Caddy
+          source: "golfer.caddy"
+          target: "~/"
+
+      - name: Move into place and reload Caddy
         uses: appleboy/ssh-action@v1.0.0
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
-          script: docker exec caddy caddy reload --config /etc/caddy/Caddyfile
+          script: |
+            mv ~/golfer.caddy /etc/caddy/golfer.caddy
+            chown caddy:caddy /etc/caddy/golfer.caddy
+            systemctl reload caddy

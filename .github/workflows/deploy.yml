@@ -26,7 +26,7 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           source: "golfer.caddy"
-          target: "~/"
+          target: "/etc/caddy/"
 
       - name: Move into place and reload Caddy
         uses: appleboy/ssh-action@v1.0.0
@@ -35,6 +35,5 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
-            mv ~/golfer.caddy /etc/caddy/golfer.caddy
             chown caddy:caddy /etc/caddy/golfer.caddy
             systemctl reload caddy

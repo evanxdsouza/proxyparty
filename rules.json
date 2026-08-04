@@ -5,5 +5,11 @@
     "mode": "proxy",
     "addedBy": "evanxdsouza",
     "note": "primary mirror"
+  },
+  {
+    "source": "test.example.com",
+    "target": "https://example.com",
+    "mode": "proxy",
+    "addedBy": "evanxdsouza"
   }
 ]

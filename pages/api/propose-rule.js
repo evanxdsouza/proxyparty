@@ -4,8 +4,8 @@ export default async function handler(req, res) {
   const { source, target, mode, requestedBy } = req.body;
   const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
 
-  const owner = "hackclub";
-  const repo = "proxy-config";
+  const owner = "evanxdsouza";
+  const repo = "proxyparty";
 
   const { data: file } = await octokit.rest.repos.getContent({
     owner, repo, path: "rules.json",

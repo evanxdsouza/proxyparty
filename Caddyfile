@@ -1,0 +1,5 @@
+bulckcah.com {
+  reverse_proxy https://hackclub.com {
+    header_up Host {upstream_hostport}
+  }
+}

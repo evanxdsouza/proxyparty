@@ -28,5 +28,5 @@ ${rule.source} {
   }
 }
 
-fs.writeFileSync("Caddyfile", output.trim());
-console.log("Caddyfile generated.");
+fs.writeFileSync("golfer.caddy", output.trim());
+console.log("golfer.caddy generated.");
